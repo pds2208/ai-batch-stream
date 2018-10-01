@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        file-input:
+          destination: queue.csv.file-messages
+          binder: local_rabbit
+          group: csvMessageConsumers
+        http-input:
+          destination: queue.csv.http-messages
+          binder: local_rabbit
+          group: csvMessageConsumers
+        output:
+          destination: queue.json.messages
+          binder: local_rabbit
+      binders:
+        local_rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+                virtual-host: /
