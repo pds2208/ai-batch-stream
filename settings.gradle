@@ -1,4 +1,4 @@
 rootProject.name = 'ai-batch-stream'
 
-include "common", "input", "listener"
+include "batch-common", "batch-input", "batch-listener"
 

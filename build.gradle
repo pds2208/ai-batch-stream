@@ -1,5 +1,27 @@
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.5.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 subprojects {
     apply plugin: 'java'
+    group = 'uk.gov.ons.batch'
+    version = '0.0.1-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    ext {
+        springCloudVersion = 'Finchley.SR1'
+    }
+
     repositories {
         mavenCentral()
     }
