@@ -1,4 +1,4 @@
-package uk.gov.ons.batch;
+package uk.gov.ons.batch.model;
 
 public class Address {
     private int id;

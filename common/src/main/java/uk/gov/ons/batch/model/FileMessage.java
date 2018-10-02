@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import uk.gov.ons.batch.Address;
 
 import java.io.Serializable;
 import java.util.ArrayList;
