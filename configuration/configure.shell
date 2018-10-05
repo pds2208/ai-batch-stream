@@ -1,0 +1,11 @@
+
+app register --name csv-to-json --type processor --uri maven://uk.gov.ons.batch:ai-batch-stream:jar:0.0.1-SNAPSHOT --force
+
+stream create --name bulk-input-sftp --definition "sftp > :bulk-load"
+stream deploy bulk-input-sftp --propertiesFile input.properties
+
+stream create --name bulk-input-http --definition "http  > :bulk-load"
+stream deploy bulk-input-http --propertiesFile input.properties
+
+stream create --name bulk-to-rabbit --definition ":bulk-load > csv-to-json | rabbit "
+stream deploy bulk-to-rabbit --propertiesFile input.properties
