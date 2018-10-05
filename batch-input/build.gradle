@@ -8,6 +8,8 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-amqp')
     implementation('org.springframework.cloud:spring-cloud-stream')
     implementation('org.springframework.cloud:spring-cloud-stream-binder-rabbit')
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-dataflow-server-core', version: '1.6.3.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-dataflow-rest-client', version: '1.6.3.RELEASE'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')

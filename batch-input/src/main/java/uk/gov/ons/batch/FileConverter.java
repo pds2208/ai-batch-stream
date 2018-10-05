@@ -9,7 +9,8 @@ import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.handler.annotation.SendTo;
-import uk.gov.ons.batch.model.FileMessage;
+import uk.gov.ons.batch.model.AddressRequestMessage;
+import uk.gov.ons.batch.model.SFTPRequestMessage;
 
 /**
  *
@@ -24,16 +25,30 @@ public class FileConverter {
 
     @Bean
     @StreamMessageConverter
-    public MessageConverter providesCSVMessageConverter() {
-        return new FileMessageConverter();
+    public MessageConverter sftpInputMessageConverter() {
+        return new SFTPMessageConverter();
+    }
+
+    @Bean
+    @StreamMessageConverter
+    public MessageConverter httpInputMessageConverter() {
+        return new HTTPMessageConverter();
     }
 
     @StreamListener(Processor.INPUT)
     @SendTo(Processor.OUTPUT)
-    public String processCSVtoJSON(FileMessage log) {
-        String s = log.getasJSON();
-        System.err.printf("******* File name: %s, JSON: %s\n", log.getCallback(),
-                log.getasJSON());
-        return s;
+    public String processRequest(AddressRequestMessage log) {
+
+        if (log.getSource() == AddressRequestMessage.SOURCE.SFTP_SOURCE) {
+            String s = ((SFTPRequestMessage) log).getasJSON();
+            System.err.printf("******* File name: %s, JSON: %s\n",
+                    log.getRequestSource(), s);
+            return s;
+        } else {
+            // HTTP is already using JSON format
+            System.err.printf("******* HTTP callback: %s, JSON: %s\n",
+                    log.getRequestSource(), log.getMessage());
+            return log.getMessage();
+        }
     }
 }

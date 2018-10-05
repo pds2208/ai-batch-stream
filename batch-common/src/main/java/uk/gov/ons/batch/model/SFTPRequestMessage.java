@@ -5,43 +5,23 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileMessage implements Serializable {
+public class SFTPRequestMessage extends AddressRequestMessage {
 
-    private String message;
-    private String callback;
-
-    public FileMessage(String callback, String message) {
-        this.message = message;
-        this.callback = callback;
-    }
-
-    public String getCallback() {
-        return callback;
-    }
-
-    public void setCallback(String callback) {
-        this.callback = callback;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public SFTPRequestMessage(String fileName, String message) {
+        super(fileName, message);
+        source = SOURCE.SFTP_SOURCE;
     }
 
     public String getasJSON() throws IllegalStateException {
         return convert();
     }
 
-    private String convert() throws IllegalStateException {
-        InputAddress ad = new InputAddress();
-        ad.fileName = callback;
+    String convert() throws IllegalStateException {
+        SFTPInputAddress ad = new SFTPInputAddress();
+        ad.requestSource = requestSource;
         Gson gson = new Gson();
         //Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String[] HEADERS = {"ID", "ADDRESS"};
@@ -60,11 +40,6 @@ public class FileMessage implements Serializable {
         } catch (Exception e) {
             throw new IllegalStateException("CSV file is not in CSV format or the format is incorrect");
         }
-    }
-
-    class InputAddress {
-        String fileName;
-        List<Address> addresses = new ArrayList<>();
     }
 
 }
